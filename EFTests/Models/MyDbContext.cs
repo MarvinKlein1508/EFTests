@@ -1,15 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFTests.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace TestProject2.Models;
+namespace EFTests.Models;
 public class MyDbContext : DbContext
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Permission> Permissions => Set<Permission>();
     public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options)
     {
     }
 
+
+    public Task<Role?> GetRoleById(int roleId) => Roles
+            .Include(x => x.RolePermissions)
+            .ThenInclude(x => x.Permission)
+            .FirstOrDefaultAsync(x => x.RoleId == roleId);
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {

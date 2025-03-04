@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace TestProject2.Models;
+namespace EFTests.Models;
 
 // Konfiguration für die Benutzer-Tabelle
 public class UserMapping : IEntityTypeConfiguration<User>

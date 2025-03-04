@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFTests.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using TestProject2.Models;
 
-namespace TestProject2;
+namespace EFTests;
 
 public class TestsBase
 {
@@ -19,12 +19,10 @@ public class TestsBase
         var host = Host.CreateDefaultBuilder()
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
-                // Konfiguration aus appsettings.json laden
                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             })
             .ConfigureServices((context, services) =>
             {
-                // Registrierung der DbContextFactory
                 services.AddDbContextFactory<MyDbContext>(options =>
                 {
                     options.LogTo(_ => { }, LogLevel.None);

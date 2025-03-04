@@ -1,13 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Microsoft.Extensions.Logging;
-using TestProject2.Models;
+﻿using EFTests.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace TestProject2;
+namespace EFTests;
 
 public class UserTests : TestsBase
 {
