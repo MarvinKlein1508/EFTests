@@ -106,10 +106,7 @@ public class RoleTests : TestsBase
         // Base class saves the entity with new DbContext
         Console.WriteLine("Create new DbContext3...");
         using var dbContext3 = await _dbFactory.CreateDbContextAsync();
-        var entry = dbContext3.Entry(role);
-        
-        dbContext3.Attach(role);
-        var entry2 = dbContext3.Entry(role);
+        dbContext3.Update(role);
         await dbContext3.SaveChangesAsync();
 
         Assert.Pass();

@@ -1,0 +1,31 @@
+﻿@page "/categories/create"
+@inject CategoryService CategoryService
+@inject NavigationManager Navigation
+
+<h3>Create Category</h3>
+
+<EditForm Model="Input">
+    <div class="mb-2">
+        <label>Name:</label>
+        <InputText @bind-Value="Input.Name" class="form-control" />
+    </div>
+</EditForm>
+
+<button class="btn btn-primary" @onclick="SaveCategory">Save</button>
+<button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+
+
+@code {
+    public Category Input { get; set; } = new();
+
+    private async Task SaveCategory()
+    {
+        await CategoryService.CreateAsync(Input);
+        Navigation.NavigateTo("/categories");
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/categories");
+    }
+}

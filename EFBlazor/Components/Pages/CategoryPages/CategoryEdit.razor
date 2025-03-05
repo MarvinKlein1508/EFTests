@@ -1,0 +1,43 @@
+﻿@page "/categories/edit/{id:int}"
+@inject CategoryService CategoryService
+@inject NavigationManager Navigation
+
+<h3>Edit Category</h3>
+
+@if (Input == null)
+{
+    return;
+}
+
+<EditForm Model="Input">
+    <div class="mb-2">
+        <label>Name:</label>
+        <InputText @bind-Value="Input.Name" class="form-control" />
+    </div>
+</EditForm>
+
+
+<button class="btn btn-primary" @onclick="SaveCategory">Save</button>
+<button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    public Category? Input { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Input = await CategoryService.GetAsync(Id);
+    }
+
+    private async Task SaveCategory()
+    {
+        await CategoryService.UpdateAsync(Input!);
+        Navigation.NavigateTo("/categories");
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/categories");
+    }
+}

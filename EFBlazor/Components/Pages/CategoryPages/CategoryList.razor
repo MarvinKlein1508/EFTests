@@ -1,0 +1,49 @@
+﻿@page "/categories"
+@inherits ListPageBase<Category, CategoryService, CategoryFilter>
+
+<h3>Categories</h3>
+
+@if(Result is null)
+{
+    <p>Loading...</p>
+    return;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Result.Items)
+        {
+            <tr>
+                <td>@item.CategoryId</td>
+                <td>@item.Name</td>
+                <td>
+                    <button class="btn btn-danger" @onclick="() => DeleteCategory(item.CategoryId)">Delete</button>
+                    <a href="@($"/categories/edit/{item.CategoryId}")" class="btn btn-warning">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Create New Category -->
+<a class="btn btn-primary mt-3" href="/categories/create">Create New Category</a>
+
+
+@code {
+    
+
+    
+
+
+    private async Task DeleteCategory(int id)
+    {
+        await Service.DeleteAsync(id);
+    }
+}
