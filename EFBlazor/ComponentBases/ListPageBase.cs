@@ -10,20 +10,25 @@ public class ListPageBase<TModel, TService, TFilter> : ComponentBase
 {
     [Parameter] public TFilter Filter { get; set; } = new();
     [Inject] public TService Service { get; set; } = default!;
-    [SupplyParameterFromQuery] public int Page { get; set; } = 1;
+    [Parameter, SupplyParameterFromQuery] public int Page { get; set; }
     protected PagedResponse<TModel>? Result { get; set; }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        return LoadAsync();
+        if (Page <= 0)
+        {
+            Page = 1;
+        }
+
+        await LoadAsync();
     }
 
     protected virtual async Task LoadAsync(bool navigateToPage1 = false)
     {
         await Task.Yield();
-        
 
-       
+
+
 
         Filter.Page = Page < 1 ? 1 : Page;
 
