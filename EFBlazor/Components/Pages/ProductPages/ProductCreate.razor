@@ -1,0 +1,63 @@
+﻿@page "/products/create"
+@inject ProductService ProductService
+@inject CategoryService CategoryService
+@inject NavigationManager Navigation
+
+<h3>Create Product</h3>
+
+@if (_showCategorySearch)
+{
+    <CategorySearch OnSelect="OnCategorySelected" />
+}
+else
+{
+    <EditForm Model="Input">
+
+        <div class="mb-2">
+            <label>Product Name:</label>
+            <InputText @bind-Value="Input.Name" class="form-control" />
+        </div>
+
+        <div class="mb-2">
+            <label>Price:</label>
+            <InputNumber @bind-Value="Input.Price" class="form-control" />
+        </div>
+
+        <div class="mb-2">
+            <label>Category:</label>
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" value="@Input.Category?.Name" disabled />
+                <button class="btn btn-outline-secondary" type="button" @onclick="() => _showCategorySearch = true">Search</button>
+            </div>
+
+        </div>
+    </EditForm>
+}
+
+
+<button class="btn btn-primary" @onclick="SaveProduct">Save</button>
+<button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+
+@code {
+    public Product Input { get; set; } = new();
+
+    private bool _showCategorySearch;
+
+    private void OnCategorySelected(Category category)
+    {
+        Input.Category = category;
+        Input.CategoryId = category.CategoryId;
+        _showCategorySearch = false;
+    }
+
+    private async Task SaveProduct()
+    {
+        await ProductService.CreateAsync(Input);
+        Navigation.NavigateTo("/products");
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/products");
+    }
+}
