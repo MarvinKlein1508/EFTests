@@ -2,7 +2,7 @@
 
 namespace EFBlazor.Models;
 
-public class ProductService : IFilterOperations<Product, ProductFilter>
+public class ProductService : IFilterOperations<Product, ProductFilter>, ICreateOperation<Product>, IUpdateOperation<Product>, IGetOperation<Product, int?>
 {
     private readonly AppDbContext _dbContext;
 
@@ -39,20 +39,20 @@ public class ProductService : IFilterOperations<Product, ProductFilter>
 
         return response;
     }
-    public Task<Product?> GetAsync(int productId, CancellationToken cancellationToken = default)
+    public Task<Product?> GetAsync(int? productId, CancellationToken cancellationToken = default)
     {
         return _dbContext.Products
             .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.ProductId == productId, cancellationToken);
     }
 
-    public Task<int> CreateAsync(Product input, CancellationToken cancellationToken = default)
+    public Task CreateAsync(Product input, CancellationToken cancellationToken = default)
     {
         _dbContext.Products.Add(input);
         return _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<int> UpdateAsync(Product input, CancellationToken cancellationToken = default)
+    public Task UpdateAsync(Product input, CancellationToken cancellationToken = default)
     {
         _dbContext.Products.Update(input);
         return _dbContext.SaveChangesAsync(cancellationToken);

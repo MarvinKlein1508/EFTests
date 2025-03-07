@@ -1,6 +1,5 @@
 ﻿@page "/products/create"
-@inject ProductService ProductService
-@inject NavigationManager Navigation
+@inherits CreatePageBase<Product, ProductService>
 
 <h3>Create Product</h3>
 
@@ -34,11 +33,11 @@ else
 }
 
 
-<button class="btn btn-primary" @onclick="SaveProduct">Save</button>
-<button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+<button class="btn btn-primary" @onclick="SaveAsync">Save</button>
+<button class="btn btn-secondary" @onclick="CancelAsync">Cancel</button>
 
 @code {
-    public Product Input { get; set; } = new();
+
 
     private bool _showCategorySearch;
 
@@ -49,14 +48,5 @@ else
         _showCategorySearch = false;
     }
 
-    private async Task SaveProduct()
-    {
-        await ProductService.CreateAsync(Input);
-        Navigation.NavigateTo("/products");
-    }
-
-    private void Cancel()
-    {
-        Navigation.NavigateTo("/products");
-    }
+    protected override string GetListUrl() => "/products";
 }

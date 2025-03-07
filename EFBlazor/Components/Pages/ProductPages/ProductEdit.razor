@@ -1,6 +1,6 @@
-﻿@page "/products/edit/{id:int}"
-@inject ProductService ProductService
-@inject NavigationManager Navigation
+﻿@page "/products/edit/{identifier:int}"
+@inherits EditPageBase<Product, ProductService, int?>
+
 
 <h3>Edit Product</h3>
 @if (Input is null)
@@ -37,20 +37,10 @@ else
     </EditForm>
 }
 
-
-<button class="btn btn-primary" @onclick="SaveProduct">Save</button>
-<button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+<button class="btn btn-primary" @onclick="SaveAsync">Save</button>
+<button class="btn btn-secondary" @onclick="CancelAsync">Cancel</button>
 
 @code {
-    [Parameter] public int Id { get; set; }
-
-    public Product? Input { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Input = await ProductService.GetAsync(Id);
-    }
-
     private bool _showCategorySearch;
 
     private void OnCategorySelected(Category category)
@@ -65,18 +55,5 @@ else
         _showCategorySearch = false;
     }
 
-    private async Task SaveProduct()
-    {
-        if (Input is null)
-        {
-            return;
-        }
-        await ProductService.UpdateAsync(Input);
-        Navigation.NavigateTo("/products");
-    }
-
-    private void Cancel()
-    {
-        Navigation.NavigateTo("/products");
-    }
+    protected override string GetListUrl() => "/products";
 }
