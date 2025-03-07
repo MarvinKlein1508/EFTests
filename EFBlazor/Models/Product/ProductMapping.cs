@@ -15,7 +15,12 @@ public class ProductMapping : IEntityTypeConfiguration<Product>
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(x => x.Price)
+            .HasPrecision(10, 4);
+
         builder.HasOne(x => x.Category)
             .WithMany(x => x.Products);
+
+        
     }
 }
