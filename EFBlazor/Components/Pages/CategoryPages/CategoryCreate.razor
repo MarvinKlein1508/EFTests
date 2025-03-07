@@ -1,31 +1,23 @@
 ﻿@page "/categories/create"
-@inject CategoryService CategoryService
-@inject NavigationManager Navigation
+@inherits CreatePageBase<Category, CategoryService>
+
 
 <h3>Create Category</h3>
 
-<EditForm Model="Input">
+<EditForm Model="Input" @ref="_form">
     <div class="mb-2">
         <label>Name:</label>
         <InputText @bind-Value="Input.Name" class="form-control" />
     </div>
 </EditForm>
 
-<button class="btn btn-primary" @onclick="SaveCategory">Save</button>
-<button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+<button class="btn btn-primary" @onclick="SaveAsync">Save</button>
+<button class="btn btn-secondary" @onclick="CancelAsync">Cancel</button>
 
 
 @code {
-    public Category Input { get; set; } = new();
 
-    private async Task SaveCategory()
-    {
-        await CategoryService.CreateAsync(Input);
-        Navigation.NavigateTo("/categories");
-    }
+    protected override string GetListUrl() => "/categories";
 
-    private void Cancel()
-    {
-        Navigation.NavigateTo("/categories");
-    }
+
 }
