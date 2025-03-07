@@ -2,7 +2,7 @@
 
 namespace EFBlazor.Models;
 
-public class CategoryService : IFilterOperations<Category, CategoryFilter>, ICreateOperation<Category>
+public class CategoryService : IFilterOperations<Category, CategoryFilter>, ICreateOperation<Category>, IGetOperation<Category, int?>, IUpdateOperation<Category>
 {
     private readonly AppDbContext _dbContext;
 
@@ -39,7 +39,7 @@ public class CategoryService : IFilterOperations<Category, CategoryFilter>, ICre
         return response;
     }
 
-    public Task<Category?> GetAsync(int categoryId, CancellationToken cancellationToken = default)
+    public Task<Category?> GetAsync(int? categoryId, CancellationToken cancellationToken = default)
     {
         return _dbContext.Categories.FirstOrDefaultAsync(x => x.CategoryId == categoryId, cancellationToken);
     }
